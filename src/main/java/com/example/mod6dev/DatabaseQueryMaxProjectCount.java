@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DatabaseQuery2 {
+public class DatabaseQueryMaxProjectCount {
         private static final String SELECT_MAX_PROJECT_COUNT_STRING =
                 "SELECT COUNT(client_id) FROM project GROUP BY client_id ORDER BY COUNT(client_id) DESC LIMIT 1";
 
@@ -17,7 +17,7 @@ public class DatabaseQuery2 {
         public PreparedStatement selectMaxProjectCountStatement;
         public PreparedStatement selectClientProjectCountStatement;
 
-        public DatabaseQuery2(Connection connection) {
+        public DatabaseQueryMaxProjectCount(Connection connection) {
             try {
                 this.selectMaxProjectCountStatement = connection.prepareStatement(SELECT_MAX_PROJECT_COUNT_STRING);
                 this.selectClientProjectCountStatement = connection.prepareStatement(SELECT_CLIENT_PROJECT_COUNT_STRING);
@@ -57,8 +57,8 @@ public class DatabaseQuery2 {
         }
 
         public static void main(String[] args) {
-            Connection connection = H2Database.getInstance().getH2Connection();
-            DatabaseQuery2 databaseQuery3 = new DatabaseQuery2(connection);
+            Connection connection = PostgresDatabase.getInstance().getPostgresConnection();
+            DatabaseQueryMaxProjectCount databaseQuery3 = new DatabaseQueryMaxProjectCount(connection);
             int maxProjectCount = databaseQuery3.getMaxProjectCount();
             databaseQuery3.queryClientProjectCount(maxProjectCount);
         }

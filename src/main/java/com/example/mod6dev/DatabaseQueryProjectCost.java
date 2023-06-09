@@ -5,19 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DatabaseQuery5 {
-        public String SELECT_PROJECT_COST_STRING = "SELECT project.id, SUM(worker.salary * " +
-                "((DATEDIFF('YEAR', project.start_date, project.finish_date) * 12) + " +
-                "EXTRACT(MONTH FROM project.finish_date) - EXTRACT(MONTH FROM project.start_date))) AS project_cost " +
-                "FROM project " +
-                "JOIN project_worker ON project.id = project_worker.project_id " +
-                "JOIN worker ON project_worker.worker_id = worker.id " +
-                "GROUP BY project.id " +
-                "ORDER BY project_cost DESC";
+public class DatabaseQueryProjectCost {
+        public String SELECT_PROJECT_COST_STRING = "SELECT project.id, SUM(worker.salary * (EXTRACT(YEAR FROM project.finish_date) - EXTRACT(YEAR FROM project.start_date)) * 12 + " +
+                "(EXTRACT(MONTH FROM project.finish_date) - EXTRACT(MONTH FROM project.start_date))) AS project_cost" +
+                " FROM project" +
+                " JOIN project_worker ON project.id = project_worker.project_id" +
+                " JOIN worker ON project_worker.worker_id = worker.id" +
+                " GROUP BY project.id" +
+                " ORDER BY project_cost DESC;";
 
         public PreparedStatement selectProjectCostStatement;
 
-        public DatabaseQuery5(Connection connection) {
+        public DatabaseQueryProjectCost(Connection connection) {
             try {
                 this.selectProjectCostStatement = connection.prepareStatement(SELECT_PROJECT_COST_STRING);
             } catch (SQLException e) {
@@ -40,8 +39,8 @@ public class DatabaseQuery5 {
         }
 
         public static void main(String[] args) {
-            Connection connection = H2Database.getInstance().getH2Connection();
-            DatabaseQuery5 databaseQuery5 = new DatabaseQuery5(connection);
+            Connection connection = PostgresDatabase.getInstance().getPostgresConnection();
+            DatabaseQueryProjectCost databaseQuery5 = new DatabaseQueryProjectCost(connection);
 
             databaseQuery5.queryProjectCost();
         }

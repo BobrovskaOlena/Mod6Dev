@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class DatabaseQuery1 {
+public class DatabaseQueryMaxSalaryWorker {
 
 private static final String SELECT_MAX_SALARY_STRING = "SELECT ID, name, birthday, salary, levels FROM worker WHERE salary = ?";
 private PreparedStatement selectMaxSalaryStatement;
 
-public DatabaseQuery1(Connection connection) {
+public DatabaseQueryMaxSalaryWorker(Connection connection) {
     try {
         this.selectMaxSalaryStatement = connection.prepareStatement(SELECT_MAX_SALARY_STRING);
     } catch (SQLException e) {
@@ -43,8 +43,8 @@ public String queryMaxSalary() {
 }
 
 public static void main(String[] args) {
-    Connection connection = H2Database.getInstance().getH2Connection();
-    DatabaseQuery1 databaseQuery2 = new DatabaseQuery1(connection);
+    Connection connection = PostgresDatabase.getInstance().getPostgresConnection();
+    DatabaseQueryMaxSalaryWorker databaseQuery2 = new DatabaseQueryMaxSalaryWorker(connection);
 
    //select 1
     try {

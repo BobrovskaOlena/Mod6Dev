@@ -1,11 +1,11 @@
-package com.example.module5dev;
+package com.example.mod6dev;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DatabaseQuery3 {
+public class DatabaseQueryFindLongestProject {
     private static final String SELECT_MONTHS_STRING =
             "SELECT id, " +
                     "(EXTRACT(YEAR FROM p.finish_date) - EXTRACT(YEAR FROM p.start_date)) * 12 " +
@@ -21,7 +21,7 @@ public class DatabaseQuery3 {
 
     private PreparedStatement selectMonthsStatement;
 
-    public DatabaseQuery3(Connection connection) {
+    public DatabaseQueryFindLongestProject(Connection connection) {
         try {
             this.selectMonthsStatement = connection.prepareStatement(SELECT_MONTHS_STRING);
         } catch (SQLException e) {
@@ -44,8 +44,8 @@ public class DatabaseQuery3 {
     }
 
     public static void main(String[] args) {
-        Connection connection = H2Database.getInstance().getH2Connection();
-        DatabaseQuery3 databaseQuery3 = new DatabaseQuery3(connection);
+        Connection connection = PostgresDatabase.getInstance().getPostgresConnection();
+        DatabaseQueryFindLongestProject databaseQuery3 = new DatabaseQueryFindLongestProject(connection);
         databaseQuery3.queryMonths();
     }
 }

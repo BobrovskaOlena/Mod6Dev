@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class DatabaseQuery4 {
+public class DatabaseQueryYoungestOldestWorkers {
     private static final String SELECT_YOUNGEST_ELDEST_STRING =
             "SELECT 'OLDEST' AS TYPE, name, birthday FROM worker WHERE birthday = (SELECT MIN(birthday) FROM worker)" +
                     "UNION " +
@@ -14,7 +14,7 @@ public class DatabaseQuery4 {
 
     private PreparedStatement selectYoungestOldestStatement;
 
-    public DatabaseQuery4(Connection connection) {
+    public DatabaseQueryYoungestOldestWorkers(Connection connection) {
         try {
             this.selectYoungestOldestStatement = connection.prepareStatement(SELECT_YOUNGEST_ELDEST_STRING);
         } catch (SQLException e) {
@@ -38,8 +38,8 @@ public class DatabaseQuery4 {
     }
 
     public static void main(String[] args) {
-        Connection connection = H2Database.getInstance().getH2Connection();
-        DatabaseQuery4 databaseQuery4 = new DatabaseQuery4(connection);
+        Connection connection = PostgresDatabase.getInstance().getPostgresConnection();
+        DatabaseQueryYoungestOldestWorkers databaseQuery4 = new DatabaseQueryYoungestOldestWorkers(connection);
 
         databaseQuery4.queryYoungestOldest();
     }
