@@ -32,19 +32,23 @@ public class ClientService {
             System.out.println("Client Service construction exception. Reason: " + e.getMessage());
         }
     }
-    public long create(String name){
-        try { this.insertNewClient.setString(1, name);
-            int identifier = insertNewClient.executeUpdate();
+    public long create(Long id, String name){
+        try {
+            this.insertNewClient.setLong(1, id);
+            this.insertNewClient.setString(2, name);
+            int identifier = this.insertNewClient.executeUpdate();
             if (identifier > 0) {
-                ResultSet generatedKeys = insertNewClient.getGeneratedKeys();
+                ResultSet generatedKeys = this.insertNewClient.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     return generatedKeys.getLong(1);
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Create client exception. Reason: " + e.getMessage());
         }
-   return -1; }
+        return 1;
+
+}
     public String getById(Long id){
         try {
             this.selectById.setLong(1,id);
@@ -92,10 +96,18 @@ public class ClientService {
     public static void main(String[] args) {
         Connection connection = PostgresDatabase.getInstance().getPostgresConnection();
         ClientService clientService = new ClientService(connection);
-        System.out.println("New client: " +clientService.create("Mark Zumenko"));
-        //clientService.getById(3);
-       // clientService.setName(5, "Olena Manulenko");
-       // clientService.deleteById(4);
-       // clientService.listAll();
+        //1
+        System.out.println("New client: " +clientService.create(7L,"Mark Zumenko"));
+        //2
+        System.out.println("Client: " +clientService.getById(3L));
+        //3
+        clientService.setName(5L, "Olena Manulenko");
+        //4
+        clientService.deleteById(4L);
+        //5
+        List<Client> clients = clientService.listAll();
+        for (Client client : clients) {
+            System.out.println("Client ID: " + client.getId());
+            System.out.println("Client Name: " + client.getName());}
     }
 }

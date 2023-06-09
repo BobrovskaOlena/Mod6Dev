@@ -1,10 +1,7 @@
 package com.example.mod6dev;
 
 import lombok.*;
-
-@Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 
@@ -14,5 +11,12 @@ public class Client {
     public Client(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }
