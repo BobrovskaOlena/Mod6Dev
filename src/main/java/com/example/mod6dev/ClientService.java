@@ -97,7 +97,7 @@ public class ClientService {
         Connection connection = PostgresDatabase.getInstance().getPostgresConnection();
         ClientService clientService = new ClientService(connection);
         //1
-        System.out.println("New client: " +clientService.create(7L,"Mark Zumenko"));
+        System.out.println("New client: " +clientService.create(8L,"Mark Umenko"));
         //2
         System.out.println("Client: " +clientService.getById(3L));
         //3
